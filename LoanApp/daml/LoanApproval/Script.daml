@@ -1,1 +1,29 @@
 module Script where 
+
+import Daml.Script
+import LoanApproval
+
+testLoanApproval : Script ()
+testLoanApproval = script do 
+
+  -- Allocate parties - Bank and Borrower
+  borrower <- allocatePartyWithHint "Borrower" (PartyIdHint "Borrower")
+  bank <- allocatePartyWithHint "Bank" (PartyIdHint "Bank")
+  
+
+  -- Borrower submits a LoanRequest to the bank 
+  loanRequestCid <- submit borrower do
+    createCmd LoanRequest with 
+      bank = bank
+      borrower = borrower
+      loanAmount = 100000.00
+  
+  -- Bank approves the LoanRequest, creating a Loan contract
+  loanCid <- submit bank do 
+    exerciseCmd loanRequestCid ApproveRequest
+
+  return ()
+
+
+
+

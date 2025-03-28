@@ -10,17 +10,16 @@ template LoanRequest
    signatory borrower      --borrower initiates the Loan Request so he is the signatory 
    observer bank           -- bank will be able to see the Loan Request
 
-   choice ApproveRequest : ContractId Loan  -- if bank approve the loan the New Loan templet is trigged and the table is created with Approved status 
+   choice ApproveRequest : ContractId Loan  -- if bank approve the loan the New Loan templet is trigged and the contract is created with Approved status 
      controller bank
      do 
      create Loan with 
-       bank 
-       borrower
-       loanAmount
+       bank = bank
+       borrower = borrower
+       loanAmount = loanAmount
        loanStatus = "Accepted"
-     
-    
---Loan template when the Bank Approve the Request
+         
+--Loan template when the Bank Approve the Request will have the approval status too further Rejectstatus can also be added
 template Loan
   with
     bank : Party
