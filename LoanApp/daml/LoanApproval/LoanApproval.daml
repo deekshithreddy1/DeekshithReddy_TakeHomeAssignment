@@ -1,0 +1,32 @@
+module LoanApproval where 
+
+template LoanRequest 
+  with 
+   bank : Party
+   borrower : Party
+   loanAmount : Decimal
+ where 
+   ensure loanAmount > 0.0 --Requested Amount should be greater then Zero
+   signatory borrower      --borrower initiates the Loan Request so he is the signatory 
+   observer bank           -- bank will be able to see the Loan Request
+
+   choice ApproveRequest : ContractId Loan  -- if bank approve the loan the New Loan templet is trigged and the table is created with Approved status 
+     controller bank
+     do 
+     create Loan with 
+       bank 
+       borrower
+       loanAmount
+       loanStatus = "Accepted"
+     
+    
+--Loan template when the Bank Approve the Request
+template Loan
+  with
+    bank : Party
+    borrower : Party 
+    loanAmount : Decimal
+    loanStatus: Text
+  where
+    signatory bank, borrower   --Here bank and borrower are signatories so both have the authority. 
+      
