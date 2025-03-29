@@ -1,0 +1,31 @@
+module LoanApprovalTokenLimit where 
+
+template Token 
+  with 
+
+
+
+
+
+
+template LoanLimit
+  with 
+
+
+
+
+
+
+template LoanRequest
+  with 
+
+
+
+
+
+template Loan 
+  with 
+
+
+
+
